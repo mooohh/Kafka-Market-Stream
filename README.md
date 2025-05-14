@@ -74,44 +74,50 @@ Edit the server properties to use your public IP:
 
 ```bash
 sudo nano config/server.properties
+
 ```
 
 It is pointing to private server , change server.properties so that it can run in public IP
 
-To do this , you can follow any of the 2 approaches shared belwo --
+To do this , you can follow this approache
 
-Do a "sudo nano config/server.properties" - change ADVERTISED_LISTENERS to public ip of the EC2 instance
+```bach
+sudo nano config/server.properties - change ADVERTISED_LISTENERS to public ip of the EC2 instance
+```
 
-![image.png](attachment:9223ffba-2236-4973-afde-96f095cfe1dc:image.png)
+Find and modify the following line :
 
-Find and modify the following line i,:
+- advertised.listeners=PLAINTEXT://<YOUR_EC2_PUBLIC_IP>:9092 (Replace <YOUR_EC2_PUBLIC_IP> with your actual EC2 public IP address)
 
-advertised.listeners=PLAINTEXT://<YOUR_EC2_PUBLIC_IP>:9092
-(Replace <YOUR_EC2_PUBLIC_IP> with your actual EC2 public IP address)
+### 5. Start ZooKeeper
 
-5. Start ZooKeeper
 In your first terminal session:
-
-bash
+```bash
 bin/zookeeper-server-start.sh config/zookeeper.properties
-6. Start Kafka Server
+```
+
+### 6. Start Kafka Server
 Open a new terminal session (after SSHing again) and run:
 
-bash
+```bash
 export KAFKA_HEAP_OPTS="-Xmx256M -Xms128M"
 bin/kafka-server-start.sh config/server.properties
-7. Create a Topic
+```
+### 7. Create a Topic
 In a new terminal session:
 
-bash
+```bash
 bin/kafka-topics.sh --create --topic demo_01 --bootstrap-server <PUBLIC_IP>:9092 --replication-factor 1 --partitions 1
-8. Start Producer
-bash
+```
+
+### 8. Start Producer
+```bash
 bin/kafka-console-producer.sh --topic demo_01 --bootstrap-server <PUBLIC_IP>:9092
-9. Start Consumer
+```
+
+### 9. Start Consumer
 In a new terminal session:
 
-bash
+```bash
 bin/kafka-console-consumer.sh --topic demo_01 --bootstrap-server <PUBLIC_IP>:9092
-
-Video Link - https://www.youtube.com/embed/KerNf0NANMo
+```
