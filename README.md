@@ -33,9 +33,9 @@ This guide provides step-by-step instructions to install and configure Apache Ka
 - SSH access to the instance
 - Basic knowledge of Linux commands
 
-## Installation Steps
+### Installation Steps
 
-### 1. Connect to your EC2 instance
+#### 1. Connect to your EC2 instance
 ```bash
 ssh -i "your-key-pair.pem" ec2-user@your-ec2-public-dns
 
@@ -45,7 +45,7 @@ Here is the dataset used in the video - https://github.com/darshilparmar/stock-m
 ## Complete Video Tutorial
 ```
 
-### 2. Install Java (Amazon Corretto 17)
+#### 2. Install Java (Amazon Corretto 17)
 First check if Java is already installed:
 
 ```bash
@@ -62,19 +62,29 @@ Verify the installation:
 
 ```bash
 java -version
-3. Download and extract Kafka
 ```
-
-bash
+### 3. Download and extract Kafka
+```bash
 wget https://downloads.apache.org/kafka/3.9.0/kafka_2.12-3.9.0.tgz
 tar -xvf kafka_2.12-3.9.0.tgz
 cd kafka_2.12-3.9.0
-4. Configure Kafka
+```
+### 4. Configure Kafka
 Edit the server properties to use your public IP:
 
-bash
+```bash
 sudo nano config/server.properties
-Find and modify the following line:
+```
+
+It is pointing to private server , change server.properties so that it can run in public IP
+
+To do this , you can follow any of the 2 approaches shared belwo --
+
+Do a "sudo nano config/server.properties" - change ADVERTISED_LISTENERS to public ip of the EC2 instance
+
+![image.png](attachment:9223ffba-2236-4973-afde-96f095cfe1dc:image.png)
+
+Find and modify the following line i,:
 
 advertised.listeners=PLAINTEXT://<YOUR_EC2_PUBLIC_IP>:9092
 (Replace <YOUR_EC2_PUBLIC_IP> with your actual EC2 public IP address)
